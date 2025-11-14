@@ -1,21 +1,22 @@
 import { LeaderboardEntry } from "./leaderboard_entry.js";
+import { mergeSort } from "../utils/sorting_algorithms.js";
 
-enum _sortBy {
+export enum SortBy {
     USERNAME,
     SCORE
 }
-enum _sortOrder {
+export enum SortOrder {
     ASCENDING,
     DESCENDING
 }
 
 export class Leaderboard {
     private entries: LeaderboardEntry[];
-    private currentSort!: { by: _sortBy; order: _sortOrder; };
+    private currentSort!: { by: SortBy; order: SortOrder; };
 
     constructor(entries: LeaderboardEntry[] = [], 
-                sortBy: _sortBy = _sortBy.SCORE, 
-                sortOrder: _sortOrder = _sortOrder.DESCENDING) {
+                sortBy: SortBy = SortBy.SCORE, 
+                sortOrder: SortOrder = SortOrder.DESCENDING) {
         const currentSort = { by: sortBy, order: sortOrder };
         this.entries = entries;
         this.sort(currentSort.by, currentSort.order);
@@ -24,37 +25,39 @@ export class Leaderboard {
     get Entries(): LeaderboardEntry[] {
         return this.entries;
     }
-    get CurrentSort(): { by: _sortBy; order: _sortOrder; } {
+    get CurrentSort(): { by: SortBy; order: SortOrder; } {
         return this.currentSort;
     }
 
     getSortBy(): string {
         switch (this.currentSort.by) {
-            case _sortBy.USERNAME:
+            case SortBy.USERNAME:
                 return "USERNAME";
-            case _sortBy.SCORE:
+            case SortBy.SCORE:
                 return "SCORE";
         }
     }
     getSortOrder(): string {
         switch (this.currentSort.order) {
-            case _sortOrder.ASCENDING:
+            case SortOrder.ASCENDING:
                 return "ASCENDING";
-            case _sortOrder.DESCENDING:
+            case SortOrder.DESCENDING:
                 return "DESCENDING";
         }
     }
 
-    sort(by: _sortBy, order: _sortOrder): void {
-        this.entries.sort((a, b) => {
+    sort(by: SortBy, order: SortOrder): void {
+        const compareFunc = (a: LeaderboardEntry, b: LeaderboardEntry): number => {
             let comparison = 0;
-            if (by === _sortBy.USERNAME) {
+            if (by === SortBy.USERNAME) {
                 comparison = a.username.localeCompare(b.username);
-            } else if (by === _sortBy.SCORE) {
+            } else {
                 comparison = a.score - b.score;
             }
-            return order === _sortOrder.ASCENDING ? comparison : -comparison;
-        });
-        this.currentSort = { by, order };
+            return order === SortOrder.ASCENDING ? comparison : -comparison;
+        };
+        
+        this.entries = mergeSort(this.entries, compareFunc);
+        this.currentSort = { by, order };   
     }
 }
