@@ -25,10 +25,10 @@ function merge(
     let i = 0, j = 0;
     
     while (i < left.length && j < right.length) {
-        if (compareFunc(left[i], right[j]) <= 0) {
-            result.push(left[i++]);
+        if (compareFunc(left[i]!, right[j]!) <= 0) {
+            result.push(left[i++]!);
         } else {
-            result.push(right[j++]);
+            result.push(right[j++]!);
         }
     }
     
