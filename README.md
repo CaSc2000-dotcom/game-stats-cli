@@ -6,7 +6,7 @@ I wrote this software to demonstrate my proficiency with the TypeScript language
 
 The purpose of this software is to serve as a learning exercise in strictly typed JavaScript development. It focuses on handling external dependencies, managing asynchronous state, and implementing classic computer science algorithms within the TypeScript type system.
 
-[Software Demo Video](http://youtube.link.goes.here)
+[Software Demo Video](https://youtu.be/MrPrdSbFRZ0)
 
 # Development Environment
 
